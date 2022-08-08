@@ -18,7 +18,7 @@ public class IPLTestCases {
 	JSONObject jsObj;
 	JSONArray jsArrayplayers;
 	
-	
+	//a test that validates that the team has only 4 foreign players
 	@Test
 	public void TC_001_Only4ForenPl() throws IOException, ParseException
 	{
@@ -41,6 +41,25 @@ public class IPLTestCases {
 				+ "foreign players in the team,number of foreign players is: "+forenPlayersCount, "4",String.valueOf(forenPlayersCount) );
 	}
 	
+	//a test that validates that there is at least one wicket keeper
+	@Test(dependsOnMethods = "TC_001_Only4ForenPl")
+	public void TC_002_Only1WicketKeeper() throws IOException, ParseException
+	{
+		int wKeeperCount=0;
+		for(int i=0;i<jsArrayplayers.size();i++)
+		{
+			JSONObject player=(JSONObject)jsArrayplayers.get(i);
+			String role=(String)player.get("role");
+			if((role.equalsIgnoreCase("Wicket-keeper")))
+					{
+						wKeeperCount++;
+					}
+			
+		}
+		Assert.assertEquals("Test case failed:Since there are either less than or greater than expected "
+				+ "wicketkeeper in the team,number of wicket keeper is: "+wKeeperCount, "1",String.valueOf(wKeeperCount));
+	
+	}
 }
 
 
